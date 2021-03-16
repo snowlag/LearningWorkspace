@@ -50,13 +50,68 @@ class BinarySearchTree {
         }
     }
 
+    
 
-    remove(value){    
-        // search for v
-        if(!this.root) {
-            return {found : false}
+
+    remove(value){   
+        //Find the leftmost node 
+        const FindInoderSuccessor = (currentnode) => {
+            while(currentnode.left){
+                currentnode = currentnode.left
+            }
+            return currentnode
         }
-     
+        //delete helper that deletes the node having given value starting from given node
+        const deleteNodeHelper = (currentnode , value) => {
+            console.log(currentnode.value , value)
+            //edge case
+            if(!currentnode){
+                return null
+            }
+            //Go to the left subtree
+            else if(value < currentnode.value){
+                currentnode.left = deleteNodeHelper(currentnode.left , value)
+                return currentnode
+            }
+            //Go to the right subtree
+            else if(value > currentnode.value){
+                currentnode.right = deleteNodeHelper(currentnode.right , value)
+                return currentnode
+            }
+            else if (value == currentnode.value){
+                //1) If node has no child
+                if(!currentnode.left && !currentnode.right){              
+                    console.log(currentnode)
+                    return null
+                }
+                //2) If node has one child
+                //left child
+                else if(currentnode.left && !currentnode.right ){
+                    return currentnode.left
+                }
+                //right child
+                else if(!currentnode.left && currentnode.right ){
+                    return currentnode.right
+                }
+                else {
+                //3) If node has two childs
+                var NodeToBeReplaced = FindInoderSuccessor(currentnode.right);
+                currentnode.value = NodeToBeReplaced.value
+                //delete the successor node
+                currentnode.right = deleteNodeHelper(currentnode.right , NodeToBeReplaced.value)
+                //return the updated current node
+                return currentnode
+
+                }
+            }
+
+      
+            
+        }
+    //Start from root
+    console.log(this.root)
+    console.log(deleteNodeHelper(this.root , value))
+    return this.root
     }
 
     //Breadth first search
@@ -161,6 +216,8 @@ tree.insert(4)
 tree.insert(24)
 tree.insert(13)
 tree.insert(26)
+tree.remove(21)
+
 // console.log(tree.BFSsearch())
 // console.log(tree.PreoderSearch())
 // console.log(tree.PostOderSearch())
