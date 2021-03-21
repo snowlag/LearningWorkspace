@@ -63,8 +63,8 @@ class PriorityQueue{
             this.values[swapindex] = temp
             index = swapindex
         }
-        return this.values
-        // return MaxElement
+        // return this.values
+        return MaxElement
     }
 }
 var queue = new PriorityQueue()

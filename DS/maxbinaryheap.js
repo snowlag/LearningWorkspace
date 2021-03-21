@@ -53,9 +53,11 @@ class MaxBinaryHeap{
             this.values[swapindex] = temp
             index = swapindex
         }
-        return this.values
-
+        // return this.values
+        return MaxElement
     }
+
+    
 
 
 }
